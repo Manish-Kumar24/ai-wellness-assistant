@@ -1,7 +1,12 @@
 FROM python:3.12-bookworm
 
+# Set working directory
 WORKDIR /app
 
+# Copy requirement files first (to leverage Docker cache)
+COPY backend/requirements-base.txt backend/requirements-heavy.txt ./
+
+# Install dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --fix-missing \
         poppler-utils \
@@ -12,26 +17,34 @@ RUN apt-get update && \
         libxext6 \
         libxrender-dev \
         libgomp1 \
+        curl \
     && rm -rf /var/lib/apt/lists/*
 
-COPY backend/requirements-base.txt backend/requirements-heavy.txt ./
 RUN pip install --upgrade pip && \
     pip install -r requirements-base.txt && \
     pip install -r requirements-heavy.txt
 
-# Copy backend code
+# Copy backend app files
 COPY backend/app ./app
 COPY backend/init_db_postgres.py ./init_db_postgres.py
 COPY backend/entrypoint.sh ./entrypoint.sh
-COPY ml ./ml
-COPY outputs ./outputs
-COPY models ./models
+COPY backend/outputs ./outputs
+COPY backend/ml ./ml
 
+# ✅ Download model directly from Hugging Face
+RUN mkdir -p /app/models && \
+    curl -L "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_M.gguf" \
+    -o /app/models/llama-2-7b-chat.Q4_K_M.gguf
+
+# Make entrypoint executable
 RUN chmod +x ./entrypoint.sh
 
-ENV PYTHONPATH=/app \
-    PYTHONUNBUFFERED=1
+# Environment variables
+ENV PYTHONPATH=/app
+ENV PORT=8000
 
+# Expose port
 EXPOSE 8000
 
+# Start the backend
 ENTRYPOINT ["./entrypoint.sh"]
