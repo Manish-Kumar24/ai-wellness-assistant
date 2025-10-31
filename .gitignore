@@ -1,0 +1,25 @@
+# Environment
+.env
+*.db
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Models & heavy files
+/models/
+*/__pycache__/
+*.pkl
+*.bin
+*.gguf
+
+# Local data
+/ml/data/
+/ml_training/
+/outputs/
+*.csv
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

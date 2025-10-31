@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Wellness Assistant</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Role Selection -->
+  <div id="role-selection">
+    <h1>AI Personal Health & Wellness Assistant</h1>
+    <p>Are you a...</p>
+    <button onclick="selectRole('patient')">Patient</button>
+    <button onclick="selectRole('doctor')">Doctor</button>
+  </div>
+
+  <!-- Auth Section -->
+  <div id="auth-box">
+    <h2>🔐 Authentication</h2>
+    <div id="role-display"></div>
+    <form id="signupForm">
+      <input type="email" id="signup-email" placeholder="Email" required>
+      <input type="password" id="signup-password" placeholder="Password" required>
+      <input type="hidden" id="signup-role">
+      <button type="submit">Sign Up</button>
+    </form>
+    <form id="loginForm">
+      <input type="email" id="login-email" placeholder="Email" required>
+      <input type="password" id="login-password" placeholder="Password" required>
+      <input type="hidden" id="login-role">
+      <button type="submit">Login</button>
+    </form>
+    <div id="auth-result"></div>
+  </div>
+
+  <!-- Patient Dashboard -->
+  <div id="patient-dashboard">
+    <h1>👩 Patient Dashboard</h1>
+    <div id="status-box">
+      <button onclick="checkHealth()">Check Backend Health</button>
+      <p id="status-message">Status: Not Checked ❌</p>
+    </div>
+    <div id="symptom-box">
+      <h2>Enter Your Symptoms</h2>
+      <form id="symptomForm">
+        <input type="text" id="symptom-input" placeholder="e.g., headache, fever" required>
+        <button type="submit">Submit</button>
+      </form>
+      <p id="symptom-result"></p>
+    </div>
+    <div id="report-box">
+      <h2>Upload Your Health Report</h2>
+      <form id="reportForm">
+        <input type="file" id="report-input" accept=".pdf,.jpg,.png" required>
+        <button type="submit">Upload</button>
+      </form>
+      <p id="report-result"></p>
+    </div>
+    <div id="chat-box">
+      <h2>AI Health Assistant 💬</h2>
+      <div id="chat-messages"></div>
+      <form id="chatForm">
+        <input type="text" id="chat-input" placeholder="Ask about your health..." required>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Doctor Dashboard -->
+  <div id="doctor-dashboard">
+    <h1>👨‍⚕️ Doctor Dashboard</h1>
+    <div id="patient-box">
+      <h2>👥 Manage Patients</h2>
+      <div>
+        <h3>Add New Patient</h3>
+        <form id="addPatientForm">
+          <input type="text" id="patient-name" placeholder="Full Name" required>
+          <input type="number" id="patient-age" placeholder="Age" min="0" max="120" required>
+          <select id="patient-gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="text" id="patient-contact" placeholder="Phone/Email (optional)">
+          <button type="submit">Add Patient</button>
+        </form>
+        <p id="add-patient-result"></p>
+      </div>
+      <div>
+        <h3>Existing Patients</h3>
+        <button onclick="loadPatients()">Refresh Patient List</button>
+        <div id="patient-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
