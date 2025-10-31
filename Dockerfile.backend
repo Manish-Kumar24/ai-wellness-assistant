@@ -28,8 +28,8 @@ RUN pip install --upgrade pip && \
 COPY backend/app ./app
 COPY backend/init_db_postgres.py ./init_db_postgres.py
 COPY backend/entrypoint.sh ./entrypoint.sh
-COPY backend/outputs ./outputs
-COPY backend/ml ./ml
+COPY outputs ./outputs
+COPY ml ./ml
 
 # ✅ Download model directly from Hugging Face
 RUN mkdir -p /app/models && \
