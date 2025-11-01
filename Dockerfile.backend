@@ -31,11 +31,6 @@ COPY backend/entrypoint.sh ./entrypoint.sh
 COPY outputs ./outputs
 COPY ml ./ml
 
-# ✅ Download model directly from Hugging Face
-RUN mkdir -p /app/models && \
-    curl -L "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_M.gguf" \
-    -o /app/models/llama-2-7b-chat.Q4_K_M.gguf
-
 # Make entrypoint executable
 RUN chmod +x ./entrypoint.sh
 
@@ -45,6 +40,9 @@ ENV PORT=8000
 
 # Expose port
 EXPOSE 8000
+
+ENV MODEL_NAME="TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+
 
 # Start the backend
 ENTRYPOINT ["./entrypoint.sh"]

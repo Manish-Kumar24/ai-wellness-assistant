@@ -13,9 +13,15 @@ from app.api import (
 from app.db.base import Base
 from app.db.session import engine
 from app.db.models import User, Patient, ReportLog, SymptomLog, FeedbackLog
+from ml.model_loader import generate_response
 
 
 app = FastAPI(title="AI Wellness Assistant")
+
+@app.get("/")
+async def root():
+    return {"message": "TinyLlama Backend is Running 🚀"}
+
 
 # Create tables on startup
 @app.on_event("startup")
@@ -45,3 +51,9 @@ app.include_router(routes_doctor.router, prefix="/doctor", tags=["Doctor"])
 @app.get("/health")
 async def health_check():
     return {"status": "ok", "message": "Backend is running 🚀"}
+
+@app.post("/generate")
+async def generate_text(data: dict):
+    prompt = data.get("prompt", "")
+    result = generate_response(prompt)
+    return {"response": result}
